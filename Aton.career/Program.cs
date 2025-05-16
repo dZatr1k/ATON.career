@@ -1,5 +1,6 @@
 using Aton.Career.UserService.Data;
 using Aton.Career.UserService.Infrastructure;
+using Aton.Career.UserService.Middlewares;
 using Aton.Career.UserService.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -58,6 +59,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
