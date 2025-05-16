@@ -1,6 +1,7 @@
 using Aton.Career.UserService.Data;
 using Aton.Career.UserService.Infrastructure;
 using Aton.Career.UserService.Models;
+using Aton.Career.UserService.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,30 +12,14 @@ namespace Aton.Career.UserService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController(IUserRepository repository, IPasswordHasher passwordHasher, IJwtProvider jwtProvider) : ControllerBase
+public class AuthController(IAuthService authService) : ControllerBase
 {
-    private readonly IUserRepository _repository = repository;
-    private readonly IPasswordHasher _passwordHasher = passwordHasher;
-    private readonly IJwtProvider _jwtProvider = jwtProvider;
+    private readonly IAuthService _authService = authService;
 
     [HttpPost("/login")]
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
     {
-        var user = await _repository.GetByLogin(dto.Login);
-
-        if (user == null || !_passwordHasher.Verify(dto.Password, user.Password))
-            return Unauthorized("Неверный логин или пароль");
-
-        var token = _jwtProvider.GenerateToken(user);
-
-        HttpContext.Response.Cookies.Append("X-Access-Token", token, new CookieOptions
-        {
-            HttpOnly = true,
-            Secure = true,
-            SameSite = SameSiteMode.None,
-            Path = "/",
-            Expires = DateTimeOffset.UtcNow.AddDays(1)
-        });
+        var token = await _authService.Login(dto, HttpContext.Response);
 
         return Ok(token);
     }
