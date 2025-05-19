@@ -16,7 +16,7 @@ public class UserQueryService(IUserRepository repository, IPasswordHasher passwo
         return await _repository.GetAllActive();
     }
 
-    public async Task<User> GetMe(MeDto meDto, string currentLogin)
+    public async Task<User> GetMe(MeQuery meDto, string currentLogin)
     {
         if(meDto.Login != currentLogin)
             throw new UnauthorizedException("Вы не можете получить информацию о себе, используя чужой логин");

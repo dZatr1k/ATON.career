@@ -26,7 +26,7 @@ public class UsersController(IUserCreationService userCreationService, IUserQuer
 
     [Authorize(Roles = "Admin")]
     [HttpGet("active")]
-    public async Task<IActionResult> GetAllActiveUsers()
+    public async Task<IActionResult> GetAllActive()
     {
         var activeUsers = await _userQueryService.GetActiveUsers();
 
@@ -35,7 +35,7 @@ public class UsersController(IUserCreationService userCreationService, IUserQuer
 
     [Authorize(Roles = "Admin")]
     [HttpGet("by-login/{login}")]
-    public async Task<IActionResult> GetUserByLogin(string login)
+    public async Task<IActionResult> GetByLogin(string login)
     {
         var user = await _userQueryService.GetUserByLogin(login);
 
@@ -43,7 +43,7 @@ public class UsersController(IUserCreationService userCreationService, IUserQuer
     }
 
     [HttpGet("me")]
-    public async Task<IActionResult> GetMe([FromBody] MeDto dto)
+    public async Task<IActionResult> GetMe([FromQuery] MeQuery dto)
     {
         var me = await _userQueryService.GetMe(dto, _currentLogin);
 
@@ -51,7 +51,7 @@ public class UsersController(IUserCreationService userCreationService, IUserQuer
     }
 
     [HttpGet("older-than")]
-    public async Task<IActionResult> GetAllUsersOlderThan([FromBody] UsersOlderThanDto dto)
+    public async Task<IActionResult> GetAllOlderThan([FromQuery] UsersOlderThanQuery dto)
     {
         var users = await _userQueryService.GetUsersOlderThan(dto.Age);
         return Ok(users);

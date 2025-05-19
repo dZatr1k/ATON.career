@@ -8,5 +8,5 @@ public interface IUserQueryService
     Task<IEnumerable<User>> GetActiveUsers();
     Task<IEnumerable<User>> GetUsersOlderThan(int age);
     Task<UserByLoginRespone> GetUserByLogin(string userLogin);
-    Task<User> GetMe(MeDto meDto, string currentLogin);
+    Task<User> GetMe(MeQuery meDto, string currentLogin);
 }
