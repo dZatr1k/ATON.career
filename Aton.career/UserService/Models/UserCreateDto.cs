@@ -5,10 +5,12 @@ namespace UserService.Models;
 public class UserCreateDto
 {
     [Required]
+    [MinLength(3, ErrorMessage = "Логин должен содержать минимум 3 символа.")]
     [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Логин должен содержать только латинские буквы и цифры.")]
     public string Login { get; init; } = null!;
 
     [Required]
+    [MinLength(8, ErrorMessage = "Пароль должен содержать минимум 8 символов.")]
     [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Пароль должен содержать только лантиские буквы и цифры.")]
     public string Password { get; init; } = null!;
 

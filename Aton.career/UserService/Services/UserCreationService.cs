@@ -10,11 +10,19 @@ public class UserCreationService(IUserRepository repository, IPasswordHasher pas
     private readonly IUserRepository _repository = repository;
     private readonly IPasswordHasher _passwordHasher = passwordHasher;
 
-    public async Task CreateUser(UserCreateDto dto, string currentLogin)
+    public async Task<User> CreateUser(UserCreateDto dto, string currentLogin)
     {
         var existing = await _repository.GetByLogin(dto.Login);
         if (existing != null)
             throw new ConflictException("Пользователь с таким логином уже существует.");
+
+        var currentUser = await _repository.GetByLogin(currentLogin);
+
+        if(currentUser == null)
+            throw new NotFoundException($"Пользователь {currentLogin} не найден или удалён.");
+
+        if (!currentUser.Admin && dto.Admin)
+            throw new ForbiddenException("Вы не можете создать администратора, если сами не являетесь администратором.");
 
         var user = new User
         {
@@ -32,5 +40,7 @@ public class UserCreationService(IUserRepository repository, IPasswordHasher pas
         };
 
         await _repository.Add(user);
+
+        return user;
     }
 }

@@ -19,27 +19,27 @@ public class UsersController(
     private readonly IUserQueryService _userQueryService = userQueryService;
     private readonly IUserDeletionService _userDeletionService = userDeletionService;
 
-    private string _currentLogin => HttpContext.User.Identity?.Name!;
+    private string _currentLogin => HttpContext.User.Identity!.Name!;
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] UserCreateDto dto)
     {
-        await _userCreationService.CreateUser(dto, _currentLogin);
+        var newUser = await _userCreationService.CreateUser(dto, _currentLogin);
 
-        return Created();
+        return CreatedAtAction(nameof(GetByLogin), new { login = newUser.Login }, newUser);
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpGet("active")]
-    public async Task<IActionResult> GetAllActive()
+    [HttpGet]
+    public async Task<IActionResult> Get([FromQuery] UserFilterQuery filter, [FromQuery] UserOrderQuery order)
     {
-        var activeUsers = await _userQueryService.GetActiveUsers();
+        var filteredUsers = await _userQueryService.GetFilteredUsers(filter, order);
 
-        return Ok(activeUsers);
+        return Ok(filteredUsers);
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpGet("by-login/{login}")]
+    [HttpGet("{login}")]
     public async Task<IActionResult> GetByLogin(string login)
     {
         var user = await _userQueryService.GetUserByLogin(login);
@@ -48,28 +48,21 @@ public class UsersController(
     }
 
     [HttpGet("me")]
-    public async Task<IActionResult> GetMe([FromQuery] MeQuery dto)
+    public async Task<IActionResult> GetMe()
     {
-        var me = await _userQueryService.GetMe(dto, _currentLogin);
+        var me = await _userQueryService.GetMe(_currentLogin);
 
         return Ok(me);
     }
 
-    [HttpGet("older-than")]
-    public async Task<IActionResult> GetAllOlderThan([FromQuery] UsersOlderThanQuery dto)
-    {
-        var users = await _userQueryService.GetUsersOlderThan(dto.Age);
-        return Ok(users);
-    }
-
     [Authorize(Roles = "Admin")]
     [HttpDelete("{login}")]
-    public async Task<IActionResult> SoftDelete(string login, [FromQuery] bool hard = false)
+    public async Task<IActionResult> SoftDelete(string login, [FromQuery] bool soft = true)
     {
-        if (hard)
-            await _userDeletionService.HardDeleteUserByLogin(login);
-        else
+        if (soft)
             await _userDeletionService.SoftDeleteUserByLogin(login, _currentLogin);
+        else
+            await _userDeletionService.HardDeleteUserByLogin(login);
 
         return NoContent();
     }

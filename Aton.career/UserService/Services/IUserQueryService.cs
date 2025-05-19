@@ -5,8 +5,7 @@ namespace Aton.Career.UserService.Services;
 
 public interface IUserQueryService
 {
-    Task<IEnumerable<User>> GetActiveUsers();
-    Task<IEnumerable<User>> GetUsersOlderThan(int age);
+    Task<IEnumerable<User>> GetFilteredUsers(UserFilterQuery filter, UserOrderQuery order);
     Task<UserByLoginRespone> GetUserByLogin(string userLogin);
-    Task<User> GetMe(MeQuery meDto, string currentLogin);
+    Task<User> GetMe(string currentLogin);
 }

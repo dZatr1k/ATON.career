@@ -4,5 +4,5 @@ namespace Aton.Career.UserService.Services;
 
 public interface IUserCreationService
 {
-    Task CreateUser(UserCreateDto dto, string currentLogin);
+    Task<User> CreateUser(UserCreateDto dto, string currentLogin);
 }

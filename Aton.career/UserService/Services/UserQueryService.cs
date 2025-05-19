@@ -2,32 +2,32 @@ using Aton.Career.UserService.Data;
 using Aton.Career.UserService.Exceptions;
 using Aton.Career.UserService.Infrastructure;
 using Aton.Career.UserService.Models;
+using Microsoft.EntityFrameworkCore;
 using UserService.Models;
 
 namespace Aton.Career.UserService.Services;
 
-public class UserQueryService(IUserRepository repository, IPasswordHasher passwordHasher) : IUserQueryService
+public class UserQueryService(IUserRepository repository, IUserQueryBuilder userQueryBuilder) : IUserQueryService
 {
     private readonly IUserRepository _repository = repository;
-    private readonly IPasswordHasher _passwordHasher = passwordHasher;
+    private readonly IUserQueryBuilder _userQueryBuilder = userQueryBuilder;
 
-    public async Task<IEnumerable<User>> GetActiveUsers()
+    public async Task<IEnumerable<User>> GetFilteredUsers(UserFilterQuery filter, UserOrderQuery order)
     {
-        return await _repository.GetAllActive();
+        var query = _repository.GetQueryable();
+
+        query = _userQueryBuilder.ApplyFilter(query, filter);
+        query = _userQueryBuilder.ApplySorting(query, order);
+
+        return await query.ToListAsync();
     }
 
-    public async Task<User> GetMe(MeQuery meDto, string currentLogin)
-    {
-        if(meDto.Login != currentLogin)
-            throw new UnauthorizedException("Вы не можете получить информацию о себе, используя чужой логин");
-        
-        var user = await _repository.GetByLogin(meDto.Login);
+    public async Task<User> GetMe(string currentLogin)
+    {   
+        var user = await _repository.GetByLogin(currentLogin);
 
         if (user == null || user.RevokedOn != null)
-            throw new ForbiddenException("Пользователь был удален");
-
-        if (!_passwordHasher.Verify(meDto.Password, user.Password))
-            throw new UnauthorizedException("Неверный логин или пароль");
+            throw new ForbiddenException("Пользователь был удален.");
 
         return user;
     }
@@ -46,10 +46,5 @@ public class UserQueryService(IUserRepository repository, IPasswordHasher passwo
             Name = user.Name,
             IsActive = user.RevokedOn == null
         };
-    }
-
-    public async Task<IEnumerable<User>> GetUsersOlderThan(int age)
-    {
-        return await _repository.GetUsersOlderThan(age);
     }
 }

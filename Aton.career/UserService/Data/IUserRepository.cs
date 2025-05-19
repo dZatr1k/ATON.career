@@ -1,14 +1,11 @@
-using Microsoft.EntityFrameworkCore;
+using Aton.Career.UserService.Models;
 using UserService.Models;
 
 namespace Aton.Career.UserService.Data;
 
 public interface IUserRepository
 {
-    Task<IEnumerable<User>> GetAll();
-    Task<IEnumerable<User>> GetAllActive();
-    Task<IEnumerable<User>> GetUsersOlderThan(int age);
-    Task<User?> GetById(Guid id);
+    IQueryable<User> GetQueryable();
     Task<User?> GetByLogin(string login);
     Task Add(User user);
     Task SoftDelete(User user, string revokedBy);
