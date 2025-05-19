@@ -1,9 +1,12 @@
 using Aton.Career.UserService.Data;
 using Aton.Career.UserService.Infrastructure;
 using Aton.Career.UserService.Middlewares;
+using Aton.Career.UserService.Requirements;
+using Aton.Career.UserService.Requirements.Handlers;
 using Aton.Career.UserService.Services;
 using Aton.Career.UserService.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -23,10 +26,16 @@ builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddScoped<IUserQueryBuilder, UserQueryBuilder>();
 
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserCreationService, UserCreationService>();
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 builder.Services.AddScoped<IUserDeletionService, UserDeletionService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserPatcherService, UserPatcherService>();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUserContextService, UserContextService>();
+
+builder.Services.AddScoped<IAuthorizationHandler, ActiveUserOrAdminHandler>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
@@ -53,7 +62,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("ActiveUserOrAdmin", policy =>
+        policy.Requirements.Add(new ActiveUserOrAdminRequirement()));
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
