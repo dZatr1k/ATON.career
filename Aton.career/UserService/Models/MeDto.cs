@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Aton.Career.UserService.Models;
 
-public class LoginDto
+public class MeDto
 {
     [Required]
     [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Логин должен содержать только латинские буквы и цифры.")]
