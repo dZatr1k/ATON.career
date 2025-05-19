@@ -77,4 +77,20 @@ public class UsersController(
         await _userPatcherService.PatchUser(login, dto);
         return NoContent();
     }
+
+    [Authorize(Policy = "ActiveUserOrAdmin")]
+    [HttpPatch("{login}/login")]
+    public async Task<IActionResult> UpdateLogin(string login, [FromBody] string newLogin)
+    {
+        await _userPatcherService.UpdateLogin(HttpContext.Response, login, newLogin);
+        return NoContent();
+    }
+
+    [Authorize(Policy = "ActiveUserOrAdmin")]
+    [HttpPatch("{login}/password")]
+    public async Task<IActionResult> UpdatePassword(string login, [FromBody] UpdatePasswordDto dto)
+    {
+        await _userPatcherService.UpdatePassword(HttpContext.Response, _userContextService.Login!, login, dto);
+        return NoContent();
+    }
 }

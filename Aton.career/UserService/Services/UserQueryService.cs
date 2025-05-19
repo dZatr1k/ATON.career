@@ -26,7 +26,10 @@ public class UserQueryService(IUserRepository repository, IUserQueryBuilder user
     {   
         var user = await _repository.GetByLogin(currentLogin);
 
-        if (user == null || user.RevokedOn != null)
+        if(user == null)
+            throw new NotFoundException($"Пользователь {currentLogin} не найден или удалён.");
+
+        if (user.RevokedOn != null)
             throw new ForbiddenException("Пользователь был удален.");
 
         return user;

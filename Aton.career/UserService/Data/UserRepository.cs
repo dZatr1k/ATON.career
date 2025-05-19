@@ -52,4 +52,20 @@ public class UserRepository(AppDbContext context) : IUserRepository
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
     }
+
+    public async Task UpdateLogin(User user, string newLogin)
+    {
+        user.Login = newLogin;
+
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdatePassword(User user, string newPassword)
+    {
+        user.Password = newPassword;
+
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+    }
 }

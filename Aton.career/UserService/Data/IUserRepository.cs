@@ -11,4 +11,6 @@ public interface IUserRepository
     Task SoftDelete(User user, string revokedBy);
     Task HardDelete(User user);
     Task Update(User user, UserPatchDto dto);
+    Task UpdateLogin(User user, string newLogin);
+    Task UpdatePassword(User user, string newPassword);
 }
