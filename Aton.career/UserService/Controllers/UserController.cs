@@ -9,10 +9,15 @@ namespace Aton.Career.UserService.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-public class UsersController(IUserCreationService userCreationService, IUserQueryService userQueryService) : ControllerBase
+public class UsersController(
+    IUserCreationService userCreationService, 
+    IUserQueryService userQueryService,
+    IUserDeletionService userDeletionService
+    ) : ControllerBase
 {
     private readonly IUserCreationService _userCreationService = userCreationService;
     private readonly IUserQueryService _userQueryService = userQueryService;
+    private readonly IUserDeletionService _userDeletionService = userDeletionService;
 
     private string _currentLogin => HttpContext.User.Identity?.Name!;
 
@@ -55,5 +60,17 @@ public class UsersController(IUserCreationService userCreationService, IUserQuer
     {
         var users = await _userQueryService.GetUsersOlderThan(dto.Age);
         return Ok(users);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("{login}")]
+    public async Task<IActionResult> SoftDelete(string login, [FromQuery] bool hard = false)
+    {
+        if (hard)
+            await _userDeletionService.HardDeleteUserByLogin(login);
+        else
+            await _userDeletionService.SoftDeleteUserByLogin(login, _currentLogin);
+
+        return NoContent();
     }
 }

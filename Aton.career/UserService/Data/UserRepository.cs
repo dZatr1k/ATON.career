@@ -44,4 +44,18 @@ public class UserRepository(AppDbContext context) : IUserRepository
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
     }
+
+    public async Task SoftDelete(User user, string revokedBy)
+    {
+        user.RevokedOn = DateTime.UtcNow;
+        user.RevokedBy = revokedBy;
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task HardDelete(User user)
+    {
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+    }
 }

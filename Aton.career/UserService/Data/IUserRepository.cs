@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using UserService.Models;
 
 namespace Aton.Career.UserService.Data;
@@ -10,4 +11,6 @@ public interface IUserRepository
     Task<User?> GetById(Guid id);
     Task<User?> GetByLogin(string login);
     Task Add(User user);
+    Task SoftDelete(User user, string revokedBy);
+    Task HardDelete(User user);
 }
