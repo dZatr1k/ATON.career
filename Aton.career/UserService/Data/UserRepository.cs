@@ -42,4 +42,14 @@ public class UserRepository(AppDbContext context) : IUserRepository
     {
         return _context.Users.AsQueryable();
     }
+
+    public async Task Update(User user, UserPatchDto dto)
+    {
+        if(dto.Name != null) user.Name = dto.Name;
+        if (dto.Gender != null) user.Gender = dto.Gender.Value;
+        if (dto.Birthday != null) user.Birthday = dto.Birthday;
+
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+    }
 }

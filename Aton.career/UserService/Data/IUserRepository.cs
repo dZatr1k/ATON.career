@@ -10,4 +10,5 @@ public interface IUserRepository
     Task Add(User user);
     Task SoftDelete(User user, string revokedBy);
     Task HardDelete(User user);
+    Task Update(User user, UserPatchDto dto);
 }

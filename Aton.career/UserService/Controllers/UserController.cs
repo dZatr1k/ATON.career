@@ -10,21 +10,24 @@ namespace Aton.Career.UserService.Controllers;
 [Route("api/[controller]")]
 [Authorize]
 public class UsersController(
+    IUserContextService userContextService,
     IUserCreationService userCreationService, 
     IUserQueryService userQueryService,
-    IUserDeletionService userDeletionService
+    IUserDeletionService userDeletionService,
+    IUserPatcherService userPatcherService
     ) : ControllerBase
 {
+    private readonly IUserContextService _userContextService = userContextService;
     private readonly IUserCreationService _userCreationService = userCreationService;
     private readonly IUserQueryService _userQueryService = userQueryService;
     private readonly IUserDeletionService _userDeletionService = userDeletionService;
+    private readonly IUserPatcherService _userPatcherService = userPatcherService;
 
-    private string _currentLogin => HttpContext.User.Identity!.Name!;
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] UserCreateDto dto)
     {
-        var newUser = await _userCreationService.CreateUser(dto, _currentLogin);
+        var newUser = await _userCreationService.CreateUser(dto, _userContextService.Login!);
 
         return CreatedAtAction(nameof(GetByLogin), new { login = newUser.Login }, newUser);
     }
@@ -50,7 +53,7 @@ public class UsersController(
     [HttpGet("me")]
     public async Task<IActionResult> GetMe()
     {
-        var me = await _userQueryService.GetMe(_currentLogin);
+        var me = await _userQueryService.GetMe(_userContextService.Login!);
 
         return Ok(me);
     }
@@ -60,10 +63,18 @@ public class UsersController(
     public async Task<IActionResult> SoftDelete(string login, [FromQuery] bool soft = true)
     {
         if (soft)
-            await _userDeletionService.SoftDeleteUserByLogin(login, _currentLogin);
+            await _userDeletionService.SoftDeleteUserByLogin(login, _userContextService.Login!);
         else
             await _userDeletionService.HardDeleteUserByLogin(login);
 
+        return NoContent();
+    }
+
+    [Authorize(Policy = "ActiveUserOrAdmin")]
+    [HttpPatch("{login}")]
+    public async Task<IActionResult> Patch(string login, [FromBody] UserPatchDto dto)
+    {
+        await _userPatcherService.PatchUser(login, dto);
         return NoContent();
     }
 }
