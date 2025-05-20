@@ -9,6 +9,17 @@ public class UserPatcherService(IUserRepository repository, IPasswordHasher pass
     private readonly IUserRepository _repository = repository;
     private readonly IPasswordHasher _passwordHasher = passwordHasher;
 
+    public async Task ActivateUser(string login, string revokedBy)
+    {
+        var user = await _repository.GetByLogin(login);
+        if(user == null)
+            throw new NotFoundException("Пользователь с таким логином не существует");
+        if (user.RevokedOn == null)
+            throw new ForbiddenException("Пользователь не был удалён.");
+        
+        await _repository.ActivateUser(user);
+    }
+
     public async Task PatchUser(string login, UserPatchDto dto)
     {
         var user = await _repository.GetByLogin(login);

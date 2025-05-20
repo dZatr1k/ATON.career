@@ -68,4 +68,12 @@ public class UserRepository(AppDbContext context) : IUserRepository
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
     }
+
+    public async Task ActivateUser(User user)
+    {
+        user.RevokedOn = null;
+        user.RevokedBy = null;
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+    }
 }

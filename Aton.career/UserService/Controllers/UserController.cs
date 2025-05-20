@@ -93,4 +93,12 @@ public class UsersController(
         await _userPatcherService.UpdatePassword(HttpContext.Response, _userContextService.Login!, login, dto);
         return NoContent();
     }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPatch("{login}/activate")]
+    public async Task<IActionResult> Activate(string login)
+    {
+        await _userPatcherService.ActivateUser(login, _userContextService.Login!);
+        return NoContent();
+    }
 }

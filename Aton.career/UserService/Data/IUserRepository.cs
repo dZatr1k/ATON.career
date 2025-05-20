@@ -13,4 +13,5 @@ public interface IUserRepository
     Task Update(User user, UserPatchDto dto);
     Task UpdateLogin(User user, string newLogin);
     Task UpdatePassword(User user, string newPassword);
+    Task ActivateUser(User user);
 }
