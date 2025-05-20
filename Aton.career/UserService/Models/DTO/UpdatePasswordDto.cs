@@ -1,4 +1,4 @@
-namespace Aton.Career.UserService.Models;
+namespace Aton.Career.UserService.Models.DTO;
 public class UpdatePasswordDto
 {
     public string OldPassword { get; init; } = null!;

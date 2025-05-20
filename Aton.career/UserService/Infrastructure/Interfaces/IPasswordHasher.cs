@@ -1,4 +1,4 @@
-namespace Aton.Career.UserService.Infrastructure;
+namespace Aton.Career.UserService.Infrastructure.Interfaces;
 
 public interface IPasswordHasher
 {

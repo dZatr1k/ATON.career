@@ -1,9 +1,12 @@
 using Aton.Career.UserService.Data;
+using Aton.Career.UserService.Data.Interfaces;
 using Aton.Career.UserService.Infrastructure;
+using Aton.Career.UserService.Infrastructure.Interfaces;
 using Aton.Career.UserService.Middlewares;
 using Aton.Career.UserService.Requirements;
 using Aton.Career.UserService.Requirements.Handlers;
 using Aton.Career.UserService.Services;
+using Aton.Career.UserService.Services.Interfaces;
 using Aton.Career.UserService.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

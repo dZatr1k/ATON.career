@@ -1,6 +1,8 @@
-using Aton.Career.UserService.Data;
+using Aton.Career.UserService.Data.Interfaces;
 using Aton.Career.UserService.Exceptions;
-using Aton.Career.UserService.Infrastructure;
+using Aton.Career.UserService.Infrastructure.Interfaces;
+using Aton.Career.UserService.Models.DTO;
+using Aton.Career.UserService.Services.Interfaces;
 using UserService.Models;
 
 namespace Aton.Career.UserService.Services;

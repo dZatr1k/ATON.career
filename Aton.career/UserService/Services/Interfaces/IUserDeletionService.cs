@@ -1,4 +1,4 @@
-namespace Aton.Career.UserService.Services;
+namespace Aton.Career.UserService.Services.Interfaces;
 
 public interface IUserDeletionService
 {

@@ -1,4 +1,4 @@
-namespace Aton.Career.UserService.Models;
+namespace Aton.Career.UserService.Models.Queries;
 
 public class UserFilterQuery
 {

@@ -1,5 +1,5 @@
-using Aton.Career.UserService.Data;
-using Aton.Career.UserService.Services;
+using Aton.Career.UserService.Data.Interfaces;
+using Aton.Career.UserService.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;

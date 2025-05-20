@@ -1,3 +1,5 @@
+using Aton.Career.UserService.Infrastructure.Interfaces;
+
 namespace Aton.Career.UserService.Infrastructure;
 
 public class PasswordHasher : IPasswordHasher

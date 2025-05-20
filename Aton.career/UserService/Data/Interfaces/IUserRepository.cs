@@ -1,7 +1,7 @@
-using Aton.Career.UserService.Models;
+using Aton.Career.UserService.Models.DTO;
 using UserService.Models;
 
-namespace Aton.Career.UserService.Data;
+namespace Aton.Career.UserService.Data.Interfaces;
 
 public interface IUserRepository
 {

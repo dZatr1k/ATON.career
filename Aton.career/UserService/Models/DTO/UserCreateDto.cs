@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace UserService.Models;
+namespace Aton.Career.UserService.Models.DTO;
 
 public class UserCreateDto
 {

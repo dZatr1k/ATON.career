@@ -1,6 +1,6 @@
 using UserService.Models;
 
-namespace Aton.Career.UserService.Infrastructure;
+namespace Aton.Career.UserService.Infrastructure.Interfaces;
 
 public interface IJwtProvider
 {

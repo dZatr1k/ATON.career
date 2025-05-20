@@ -1,6 +1,6 @@
-
-using Aton.Career.UserService.Data;
+using Aton.Career.UserService.Data.Interfaces;
 using Aton.Career.UserService.Exceptions;
+using Aton.Career.UserService.Services.Interfaces;
 
 namespace Aton.Career.UserService.Services;
 public class UserDeletionService(IUserRepository repository) : IUserDeletionService

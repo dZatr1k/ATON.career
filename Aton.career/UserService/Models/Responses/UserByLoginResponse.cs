@@ -1,7 +1,5 @@
-using System.ComponentModel.DataAnnotations;
-
-namespace Aton.Career.UserService.Models;
-public class UserByLoginRespone
+namespace Aton.Career.UserService.Models.Responses;
+public class UserByLoginResponse
 {
     public string Name { get; init; } = string.Empty;
 

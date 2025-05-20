@@ -1,6 +1,6 @@
-using Aton.Career.UserService.Models;
+using Aton.Career.UserService.Models.DTO;
 
-namespace Aton.Career.UserService.Services;
+namespace Aton.Career.UserService.Services.Interfaces;
 
 public interface IUserPatcherService
 {

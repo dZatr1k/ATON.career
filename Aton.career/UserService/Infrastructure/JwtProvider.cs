@@ -1,3 +1,4 @@
+using Aton.Career.UserService.Infrastructure.Interfaces;
 using Aton.Career.UserService.Settings;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

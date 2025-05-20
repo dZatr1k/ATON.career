@@ -1,4 +1,5 @@
-using Aton.Career.UserService.Models;
+using Aton.Career.UserService.Data.Interfaces;
+using Aton.Career.UserService.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 using UserService.Models;
 

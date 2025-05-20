@@ -1,7 +1,9 @@
-using Aton.Career.UserService.Data;
+using Aton.Career.UserService.Data.Interfaces;
 using Aton.Career.UserService.Exceptions;
-using Aton.Career.UserService.Infrastructure;
-using Aton.Career.UserService.Models;
+using Aton.Career.UserService.Infrastructure.Interfaces;
+using Aton.Career.UserService.Models.Queries;
+using Aton.Career.UserService.Models.Responses;
+using Aton.Career.UserService.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using UserService.Models;
 
@@ -35,14 +37,14 @@ public class UserQueryService(IUserRepository repository, IUserQueryBuilder user
         return user;
     }
 
-    public async Task<UserByLoginRespone> GetUserByLogin(string userLogin)
+    public async Task<UserByLoginResponse> GetUserByLogin(string userLogin)
     {
         var user = await _repository.GetByLogin(userLogin);
 
         if (user == null)
             throw new NotFoundException("Пользователь с таким логином не существует");
 
-        return new UserByLoginRespone
+        return new UserByLoginResponse
         {
             Birthday = user.Birthday,
             Gender = user.Gender,

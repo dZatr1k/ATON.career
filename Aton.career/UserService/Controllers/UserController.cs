@@ -1,8 +1,8 @@
-using UserService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Aton.Career.UserService.Services;
-using Aton.Career.UserService.Models;
+using Aton.Career.UserService.Services.Interfaces;
+using Aton.Career.UserService.Models.DTO;
+using Aton.Career.UserService.Models.Queries;
 
 namespace Aton.Career.UserService.Controllers;
 
@@ -24,6 +24,7 @@ public class UsersController(
     private readonly IUserPatcherService _userPatcherService = userPatcherService;
 
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] UserCreateDto dto)
     {

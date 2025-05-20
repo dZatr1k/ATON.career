@@ -1,3 +1,4 @@
+using Aton.Career.UserService.Services.Interfaces;
 using System.Security.Claims;
 
 namespace Aton.Career.UserService.Services;

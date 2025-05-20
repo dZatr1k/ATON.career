@@ -1,12 +1,6 @@
-using Aton.Career.UserService.Data;
-using Aton.Career.UserService.Infrastructure;
-using Aton.Career.UserService.Models;
-using Aton.Career.UserService.Services;
+using Aton.Career.UserService.Models.DTO;
+using Aton.Career.UserService.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace Aton.Career.UserService.Controllers;
 

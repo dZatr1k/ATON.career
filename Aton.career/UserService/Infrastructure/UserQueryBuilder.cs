@@ -1,7 +1,6 @@
-using Aton.Career.UserService.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Aton.Career.UserService.Infrastructure.Interfaces;
+using Aton.Career.UserService.Models.Queries;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 using UserService.Models;
 
 namespace Aton.Career.UserService.Infrastructure;

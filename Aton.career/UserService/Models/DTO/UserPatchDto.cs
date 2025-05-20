@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Aton.Career.UserService.Models;
+namespace Aton.Career.UserService.Models.DTO;
 public class UserPatchDto
 {
     [RegularExpression(@"^[a-zA-Zа-яА-ЯёЁ]+$", ErrorMessage = "Имя должно содержать только кирилицу или лантиские буквы.")]
