@@ -16,8 +16,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.Entity<User>().HasData(new User
         {
             Id = new Guid("86786fc5-fcdb-4334-babd-f7df87cfb354"),
-            Login = "string",
-            Password = "$2a$11$O3ouGRnF7rbQy880a3b2NuiD2F0jM99pRRBrSRElaxY14g1v48Xiy",
+            Login = "Admin",
+            Password = "$2a$11$ThoUIkTghKhEuzgk84NxxOFVMvd7vpYYT.ldJLRpU3PRvGpjnY5Qm",
             Name = "Админ",
             Gender = 1,
             Admin = true,

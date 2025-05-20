@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Aton.Career.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250516165645_Initial")]
+    [Migration("20250519235117_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -87,11 +87,11 @@ namespace Aton.Career.Migrations
                             CreatedBy = "System",
                             CreatedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Gender = 1,
-                            Login = "string",
+                            Login = "Admin",
                             ModifiedBy = "System",
                             ModifiedOn = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Name = "Админ",
-                            Password = "$2a$11$O3ouGRnF7rbQy880a3b2NuiD2F0jM99pRRBrSRElaxY14g1v48Xiy"
+                            Password = "$2a$11$ThoUIkTghKhEuzgk84NxxOFVMvd7vpYYT.ldJLRpU3PRvGpjnY5Qm"
                         });
                 });
 #pragma warning restore 612, 618
