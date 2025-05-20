@@ -19,7 +19,7 @@ services:
       - db
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__Default=Host=db;Port=5432;Database=atondb;Username=atonuser;Password=atonpassword
+      - ConnectionStrings__AppDbContext=Host=db;Port=5432;Database=atondb;Username=atonuser;Password=atonpassword
     ports:
       - "8080:8080"
     restart: always
