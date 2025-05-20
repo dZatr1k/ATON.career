@@ -8,7 +8,7 @@ cd ATON.career
 ```
 docker compose up --build
 ```
-url сваггера - https://localhost:7210/swagger/index.html
+url сваггера - https://localhost:8080/swagger/index.html
 ## Запуск Локально
 - поставить PostgreSQL
 - В файле appsettings.json указать корректную ConnectionString
